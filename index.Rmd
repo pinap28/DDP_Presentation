@@ -1,0 +1,62 @@
+---
+title       : Prediction Height Application
+subtitle    : Predict child's height from parent's height
+author      : David Ibáñez Alonso
+logo        : alto_peke.gif
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [rCharts: libraries/nvd3]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Motivation and App Explanation
+
+- We want to create an application to ``predict`` the child's height knowing the parent's height.
+- We are using the data from the famous 1885 study of ``Francis Galton``, 
+exploring the relationship between the heights of children and the 
+height of their parents, to build our predicting model. The variables 
+are the height of the adult child and the midparent height, defined as 
+the average of the height of the father and 1.08 times the height 
+of the mother. The units are inches. The number of cases is 928, 
+representing 928 children and their 205 parents.
+- As ``input`` we have the ``Parent's Height``.
+- Inputs height work from `50` to `90` inches.
+- As ``output`` we have the predicted ``Child's Height``.
+- We have also a ``plot`` with our prediction, galton's data and the linear model we build.
+- You can find the Applicatio here https://pinap.shinyapps.io/DDP_Project/
+
+
+--- .class #id 
+
+## Data Used
+
+- We are using Galton's data from the `UsingR` library.
+
+```{r, results='hide'}
+library(UsingR)
+```
+
+```{r}
+summary(galton)
+```
+
+--- .class #id
+
+## Linear Model
+
+```{r, echo=FALSE}
+fit <- lm(child ~ parent, galton)
+summary(fit)
+```
+
+--- .class #id
+
+## Plot Data and Linear Model
+
+```{r, fig.align='center', fig.height = 5}
+plot(galton$parent, galton$child, xlab = "Parent's Height", ylab = "Child's Height", 
+     pch = 16, xlim = c(50,90), ylim = c(56, 82))
+abline(fit, col = "red", lwd = 4)
+```
